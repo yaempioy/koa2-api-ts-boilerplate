@@ -11,14 +11,18 @@ export const enum userType {
   USER = 'USER',
 }
 
-export interface IUser extends Mongoose.Document {
+export interface IUserDocument extends Mongoose.Document {
   username: string
   email: string
   password: string,
   type: userType,
 }
 
-export const userSchema = new Mongoose.Schema({
+export interface IUser extends IUserDocument {
+  generateToken(): string
+}
+
+export const userSchema: Mongoose.Schema = new Mongoose.Schema({
   email: {
     type: String,
     unique: true,
@@ -34,7 +38,7 @@ export const userSchema = new Mongoose.Schema({
   },
   type: {
     type: String,
-    required: true,
+    default: userType.USER,
   },
   created: {
     type: Date,
@@ -46,9 +50,8 @@ export const userSchema = new Mongoose.Schema({
   },
 })
 
-userSchema.pre('save', function preSave(next: () => void) {
-  const user = this
-  if (!user.isModified('password')) {
+userSchema.pre('validate', function preSave(next: () => void) {
+  if (!this.isModified('password')) {
     return next()
   }
   new Promise((resolve, reject) => {
@@ -57,29 +60,23 @@ userSchema.pre('save', function preSave(next: () => void) {
       resolve(salt)
     })
   }).then((salt) => {
-    bcrypt.hash(user.password, saltRounds, (err, hash) => {
+    bcrypt.hash(this.password, saltRounds, (err, hash) => {
       if (err) { throw err }
-      user.password = hash
+      this.password = hash
       next()
     })
   }).catch(err => next())
 })
 
 userSchema.methods.validatePassword = function validatePassword(password: string) {
-  const user = this
-
   return new Promise((resolve, reject) => {
-    bcrypt.compare(password, user.password, (err, isMatch) => {
+    bcrypt.compare(password, this.password, (err, isMatch) => {
       if (err) { return reject(err) }
-
       resolve(isMatch)
     })
   })
 }
 
-userSchema.methods.generateToken = function generateToken() {
-  const user = this
-  return jwt.sign({ id: user.id }, token)
-}
+userSchema.methods.generateToken = () => (jwt.sign({ id: this.id }, token))
 
-export default Mongoose.model<IUser>('User', userSchema)
+export default Mongoose.model<IUser>('user', userSchema)

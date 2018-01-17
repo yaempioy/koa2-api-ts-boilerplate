@@ -19,6 +19,9 @@ bootstrap().then(() => { run() })
 should()
 describe('Routes', () => {
   before(async () => {
+    Object.keys(mongoose.connection.collections).forEach((name) => {
+      mongoose.connection.collections[name].remove(() => { })
+    })
   })
   routes.map(route => require(route).default(request))
   after(async () => {
