@@ -12,7 +12,7 @@ export default function userTest(request: supertest.SuperTest<supertest.Test>) {
   describe('User Route', () => {
     describe('Should response new user data.', () => {
       it('should return 200 OK', async () => {
-        const result = await request.post(`${baseUrl}/user`)
+        const result = await request.post(`/api${baseUrl}/register`)
           .send({ user })
           .expect(200)
       })

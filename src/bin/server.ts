@@ -16,6 +16,9 @@ export async function init() {
     console.error('Unable to connect to database')
     throw error
   }
+  /** require passport config */
+  require('../config/passport')
+
   app.keys = new keygrip(config.appConfig.appKeys, config.appConfig.hmacAlgorithm, config.appConfig.encoding)
   app.use(middleware())
   // Proxy config

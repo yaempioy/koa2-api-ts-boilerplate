@@ -2,7 +2,7 @@ import * as KoaRouter from 'koa-router'
 import { middlewareInterface } from '../interface'
 import * as controller from './test.controller'
 
-export const baseUrl = '/api'
+export const baseUrl = '/test'
 export const baseUrlMiddleware: middlewareInterface[] = []
 
 export default [

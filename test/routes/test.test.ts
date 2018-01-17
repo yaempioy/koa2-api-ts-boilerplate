@@ -6,7 +6,7 @@ export default function sampleTest(request: supertest.SuperTest<supertest.Test>)
   describe('Test Route', () => {
     describe('Should response message hello world :: $NODE_ENV', () => {
       it('should return 200 OK', async () => {
-        const result = await request.get(`${baseUrl}/hello`).expect(200)
+        const result = await request.get(`/api${baseUrl}/hello`).expect(200)
         assert.equal(result.body.message, 'Hello :: test')
       })
     })

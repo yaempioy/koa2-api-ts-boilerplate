@@ -23,7 +23,10 @@ describe('Routes', () => {
       mongoose.connection.collections[name].remove(() => { })
     })
   })
-  routes.map(route => require(route).default(request))
+  // routes.map(route => require(route).default(request))
+  require('./routes/test.test').default(request)
+  require('./routes/user.test').default(request)
+  require('./routes/auth.test').default(request)
   after(async () => {
   })
 })

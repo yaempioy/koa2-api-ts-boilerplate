@@ -48,7 +48,7 @@ exports = module.exports = function initModules(app: Koa) {
         }
         subRouter[method](route, ...middlewares, handler)
       })
-      baseRouter.use(baseUrl, ...baseUrlMiddleware, subRouter.routes(), subRouter.allowedMethods())
+      baseRouter.use(`/api${baseUrl}`, ...baseUrlMiddleware, subRouter.routes(), subRouter.allowedMethods())
       app.use(baseRouter.routes())
     })
   } catch (error) {

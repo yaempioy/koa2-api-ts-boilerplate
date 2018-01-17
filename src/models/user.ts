@@ -20,6 +20,7 @@ export interface IUserDocument extends Mongoose.Document {
 
 export interface IUser extends IUserDocument {
   generateToken(): string
+  validatePassword(password: string): boolean
 }
 
 export const userSchema: Mongoose.Schema = new Mongoose.Schema({

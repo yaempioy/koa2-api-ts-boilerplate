@@ -1,13 +1,21 @@
 {
-  "extends": "tslint-config-airbnb",
-  "rules":{
-    "semicolon": [true, "never"],
-    "max-line-length": [true, 120],
-    "strict-boolean-expressions": [
-      false,
-      "allow-string",
-      "allow-undefined-union",
-      "allow-null-union"
-    ]
-  }
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "strictNullChecks": true,
+    "paths": {
+      "*": [
+        "node_modules/*",
+        "src/types/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ]
 }
